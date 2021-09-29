@@ -12,7 +12,9 @@ describe("Depositor", function () {
     const testToken = await TestToken.deploy()
     await testToken.deployed()
 
-    const mintTx = await testToken.connect(owner).mint(1000)
+    const DEFAULT_AMOUNT = 100000
+
+    const mintTx = await testToken.connect(owner).mint(DEFAULT_AMOUNT)
     await mintTx.wait()
 
     const depositAddress = await depositor.depositAddress(owner.address)
@@ -30,7 +32,7 @@ describe("Depositor", function () {
     console.log(`owner balance: ${ownerTokenBalance}`)
     console.log(`depositor balance: ${depositorTokenBalance}`)
     console.log(`ignorant balance: ${ignorantTokenBalance}`)
-    assert.equal(+ownerTokenBalance, 0)
+    assert.equal(+ownerTokenBalance, DEFAULT_AMOUNT - 1000)
     assert.equal(+depositorTokenBalance, 1000)
     assert.equal(+ignorantTokenBalance, 0)
   });
@@ -45,8 +47,9 @@ describe("Depositor", function () {
     const testToken = await TestToken.deploy()
     await testToken.deployed()
 
-    const mintAmount = 1249124
-    const mintTx = await testToken.connect(owner).mint(mintAmount)
+    const DEFAULT_AMOUNT = 100000
+
+    const mintTx = await testToken.connect(owner).mint(DEFAULT_AMOUNT)
     await mintTx.wait()
 
     const approveTx = await testToken.connect(owner).approve(depositor.address, 1000)
@@ -58,7 +61,7 @@ describe("Depositor", function () {
     const ownerTokenBalance = await testToken.balanceOf(owner.address)
     const depositorTokenBalance = await testToken.balanceOf(depositor.address)
 
-    assert.equal(+ownerTokenBalance, mintAmount - 1000)
+    assert.equal(+ownerTokenBalance, DEFAULT_AMOUNT - 1000)
     assert.equal(+depositorTokenBalance, 1000)
   })
 });
