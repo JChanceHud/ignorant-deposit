@@ -23,7 +23,7 @@ contract TestToken {
   }
 
   function decimals() public pure returns (uint8) {
-    return 4;
+    return 3;
   }
 
   function totalSupply() public pure returns (uint) {
