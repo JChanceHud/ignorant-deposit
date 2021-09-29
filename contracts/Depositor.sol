@@ -4,15 +4,9 @@ import "./IgnorantSender.sol";
 import "./interfaces/IERC20.sol";
 
 contract Depositor {
-  address immutable public lighthouse;
-
-  constructor(address _lighthouse) {
-    lighthouse = _lighthouse;
-  }
-
   function getBytecode() public view returns (bytes memory) {
     bytes memory bytecode = type(IgnorantSender).creationCode;
-    return abi.encodePacked(bytecode, abi.encode(lighthouse));
+    return abi.encodePacked(bytecode, abi.encode(address(this)));
   }
 
   function getAddress(bytes memory bytecode, uint salt) public view returns (address) {

@@ -4,16 +4,9 @@ const assert = require('assert')
 describe("Depositor", function () {
   it("Should deposit tokens without approval", async function () {
     const [ owner ] = await ethers.getSigners();
-    const Lighthouse = await ethers.getContractFactory("Lighthouse");
-    const lighthouse = await Lighthouse.deploy(owner.address);
-    await lighthouse.deployed();
-
     const Depositor = await ethers.getContractFactory('Depositor')
-    const depositor = await Depositor.deploy(lighthouse.address)
+    const depositor = await Depositor.deploy()
     await depositor.deployed()
-
-    const harborTx = await lighthouse.setHarbor(depositor.address)
-    await harborTx.wait()
 
     const TestToken = await ethers.getContractFactory('TestToken')
     const testToken = await TestToken.deploy()
@@ -45,7 +38,7 @@ describe("Depositor", function () {
   it("Should compare cost of performing transferFrom", async () => {
     const [ owner ] = await ethers.getSigners();
     const Depositor = await ethers.getContractFactory('Depositor')
-    const depositor = await Depositor.deploy('0x0000000000000000000000000000000000000000')
+    const depositor = await Depositor.deploy()
     await depositor.deployed()
 
     const TestToken = await ethers.getContractFactory('TestToken')
